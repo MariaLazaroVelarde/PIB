@@ -1,0 +1,75 @@
+<div class="min-h-screen bg-gradient-to-br from-purple-600 to-purple-800">
+  <!-- Header -->
+  <div class="flex items-center justify-between p-6 pt-12 text-white">
+    <button (click)="volver()" class="p-2 hover:bg-white/10 rounded-full transition-colors">
+      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z"/>
+      </svg>
+    </button>
+    <h1 class="text-xl font-semibold">Mi QR</h1>
+    <div class="w-10"></div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="flex-1 px-6 py-8">
+    <div class="text-center text-white mb-8">
+      <p class="text-lg mb-2">Comparte tu código QR para</p>
+      <p class="text-lg font-semibold">recibir pagos</p>
+    </div>
+
+    <!-- QR Code Container -->
+    <div class="bg-white rounded-3xl p-8 mx-auto max-w-sm shadow-2xl">
+      <!-- Usuario info -->
+      <div class="text-center mb-6">
+        <img [src]="usuario.avatar" alt="Avatar" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-purple-100">
+        <h2 class="text-xl font-bold text-gray-900 mb-1">{{ usuario.nombre }}</h2>
+        <p class="text-gray-600">{{ usuario.telefono }}</p>
+      </div>
+
+      <!-- QR Code (Simulado con un patrón) -->
+      <div class="bg-gray-900 rounded-2xl p-6 mb-6">
+        <div class="grid grid-cols-8 gap-1">
+          <!-- Simulación de patrón QR -->
+          <div *ngFor="let i of [].constructor(64); let idx = index"
+               class="aspect-square rounded-sm"
+               [class.bg-white]="shouldShowWhite(idx)"
+               [class.bg-gray-900]="!shouldShowWhite(idx)">
+          </div>
+        </div>
+      </div>
+
+      <!-- Instrucciones -->
+      <div class="text-center text-gray-600 text-sm">
+        <p class="mb-2">Escanea este código para enviarme dinero</p>
+        <p class="text-xs text-gray-500">Válido por 24 horas</p>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="mt-8 space-y-4">
+      <button (click)="compartirQR()"
+              class="w-full py-4 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z"/>
+        </svg>
+        <span>Compartir QR</span>
+      </button>
+
+      <button (click)="descargarQR()"
+              class="w-full py-4 border-2 border-white text-white rounded-full font-semibold hover:bg-white/10 transition-colors flex items-center justify-center space-x-2">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
+        </svg>
+        <span>Descargar</span>
+      </button>
+    </div>
+
+    <!-- Información adicional -->
+    <div class="mt-8 text-center">
+      <p class="text-white/80 text-sm mb-4">También puedes recibir pagos compartiendo tu número:</p>
+      <div class="bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 inline-block">
+        <p class="text-white font-mono">{{ usuario.telefono }}</p>
+      </div>
+    </div>
+  </div>
+</div>

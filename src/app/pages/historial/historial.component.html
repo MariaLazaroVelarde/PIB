@@ -1,0 +1,97 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Header -->
+  <div class="bg-white px-6 py-4 flex items-center justify-between border-b border-gray-200">
+    <h1 class="text-xl font-semibold text-gray-900">Historial</h1>
+    <button class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+      <svg class="w-6 h-6 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M3,17V19H9V17H3M3,5V7H13V5H3M13,21V19H21V17H13V15H11V21H13M7,9V11H3V13H7V15H9V9H7M21,13V11H11V13H21M15,9H13V15H15V13H21V11H15V9Z"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Resumen -->
+  <div class="px-6 py-6">
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div class="bg-red-500 rounded-2xl p-4 text-white">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-red-100">Enviado</span>
+          <svg class="w-5 h-5 text-red-200" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M7,14L12,9L17,14H7Z"/>
+          </svg>
+        </div>
+        <p class="text-2xl font-bold">S/ {{ resumen.enviado.toFixed(2) }}</p>
+      </div>
+
+      <div class="bg-green-500 rounded-2xl p-4 text-white">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-green-100">Recibido</span>
+          <svg class="w-5 h-5 text-green-200" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M7,10L12,15L17,10H7Z"/>
+          </svg>
+        </div>
+        <p class="text-2xl font-bold">S/ {{ resumen.recibido.toFixed(2) }}</p>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="mb-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Transacciones</h3>
+      <p class="text-sm text-gray-500 mb-4">Todo el tiempo • {{ transacciones.length }} operaciones</p>
+
+      <div class="flex space-x-2">
+        <button (click)="cambiarFiltro('todos')"
+                class="px-4 py-2 rounded-full text-sm font-medium transition-colors"
+                [class.bg-purple-600]="filtroActivo === 'todos'"
+                [class.text-white]="filtroActivo === 'todos'"
+                [class.bg-gray-200]="filtroActivo !== 'todos'"
+                [class.text-gray-700]="filtroActivo !== 'todos'">
+          Todos ({{ transacciones.length }})
+        </button>
+
+        <button (click)="cambiarFiltro('recibido')"
+                class="px-4 py-2 rounded-full text-sm font-medium transition-colors"
+                [class.bg-purple-600]="filtroActivo === 'recibido'"
+                [class.text-white]="filtroActivo === 'recibido'"
+                [class.bg-gray-200]="filtroActivo !== 'recibido'"
+                [class.text-gray-700]="filtroActivo !== 'recibido'">
+          Favoritos (3)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Lista de transacciones -->
+  <div class="bg-white">
+    <div *ngFor="let transaccion of transaccionesFiltradas; let last = last"
+         class="flex items-center space-x-4 px-6 py-4 hover:bg-gray-50 transition-colors"
+         [class.border-b]="!last"
+         [class.border-gray-200]="!last">
+
+      <div class="relative">
+        <img [src]="transaccion.avatar" alt="Avatar" class="w-12 h-12 rounded-full">
+        <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full flex items-center justify-center"
+             [class.bg-red-500]="transaccion.monto < 0"
+             [class.bg-green-500]="transaccion.monto > 0">
+          <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path *ngIf="transaccion.monto < 0" d="M7,14L12,9L17,14H7Z"/>
+            <path *ngIf="transaccion.monto > 0" d="M7,10L12,15L17,10H7Z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="flex-1">
+        <p class="font-medium text-gray-900">{{ transaccion.nombre }}</p>
+        <p class="text-sm text-gray-500">{{ transaccion.descripcion }}</p>
+      </div>
+
+      <div class="text-right">
+        <p class="font-semibold"
+           [class.text-red-600]="transaccion.monto < 0"
+           [class.text-green-600]="transaccion.monto > 0">
+          {{ transaccion.monto > 0 ? '+' : '' }}S/ {{ Math.abs(transaccion.monto).toFixed(2) }}
+        </p>
+        <p class="text-xs text-gray-500">{{ transaccion.fecha }}</p>
+      </div>
+    </div>
+  </div>
+</div>
